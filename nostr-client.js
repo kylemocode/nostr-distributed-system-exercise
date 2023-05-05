@@ -6,7 +6,9 @@ await config();
 
 const CLIENT_PUBLICK_KEY =
   '33fa869f2a18ec4637875296161cd4fb81966349a84e78765d66da6e2316e6e4';
-const relay = relayInit('wss://relay.nekolicio.us/');
+const TESTING_RELAY = 'wss://relay.nekolicio.us/';
+
+const relay = relayInit(TESTING_RELAY);
 
 relay.on('connect', () => {
   console.log(`connected to ${relay.url}`);
