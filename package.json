@@ -1,0 +1,14 @@
+{
+  "name": "nostr-distributed-system-exercise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/kylemocode/nostr-distributed-system-exercise.git",
+  "author": "kylemocode <kylemo860617@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "nostr-tools": "^1.10.1",
+    "websocket-polyfill": "^0.0.3"
+  }
+}
