@@ -28,6 +28,9 @@ node nostr-client.js
 ```
 
 and you can go to https://relay.nekolicio.us/watcher/ to see if the event successfully send the event.
+
+<img width="1659" alt="截圖 2023-05-06 上午10 51 50" src="https://user-images.githubusercontent.com/35811214/236611298-501c8a62-4f33-44e3-889d-e5782ee9ee9f.png">
+
 BTW, the client will exit after 5 seconds timeout.
 
 #### Question Exercises
