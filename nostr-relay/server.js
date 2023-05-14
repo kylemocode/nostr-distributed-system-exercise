@@ -15,8 +15,8 @@ wss.on('connection', ws => {
       const [action, ...args] = JSON.parse(message);
       switch (action) {
         case 'EVENT':
-          console.log('EVENT');
           const eventData = args[0];
+          console.log('EVENT: ', eventData);
 
           // Validate the event before accepting it
           if (!validateEvent(eventData)) {
@@ -51,8 +51,8 @@ wss.on('connection', ws => {
           break;
 
         case 'REQ':
-          console.log('REQ');
           subscriptionId = args[0];
+          console.log('REQ: from ', subscriptionId);
           subscriptions[subscriptionId] = ws;
           break;
 
