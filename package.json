@@ -7,8 +7,12 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@prisma/client": "^4.14.0",
     "dotenv": "^16.0.3",
     "nostr-tools": "^1.10.1",
-    "websocket-polyfill": "^0.0.3"
+    "pg": "^8.10.0",
+    "prisma": "^4.14.0",
+    "websocket-polyfill": "^0.0.3",
+    "ws": "^8.13.0"
   }
 }
