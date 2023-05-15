@@ -17,10 +17,6 @@ relay.on('error', () => {
   console.log(`failed to connect to ${relay.url}`);
 });
 
-relay.on('notice', () => {
-  console.log(`test...`);
-});
-
 await relay.connect();
 
 let sub = relay.sub([{}]);

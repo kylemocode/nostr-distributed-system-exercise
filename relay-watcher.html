@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <main>
+      <h1>nostr watcher</h1>
+
+      <ul id="content"></ul>
+    </main>
+    <script>
+      let socket = new WebSocket('ws://localhost:8080');
+
+      socket.onopen = function (e) {
+        alert('[open] Connection established');
+        const req = JSON.stringify([
+          'REQ',
+          '12j312n31knkajsndaksndas',
+          { limit: 5 },
+        ]);
+        socket.send(req);
+      };
+
+      socket.onmessage = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var data = JSON.parse(reader.result);
+          var ul = document.getElementById('content');
+          var li = document.createElement('li');
+          li.appendChild(document.createTextNode(JSON.stringify(data)));
+          ul.appendChild(li);
+        };
+        reader.readAsText(event.data);
+      };
+
+      socket.onclose = function (event) {
+        if (event.wasClean) {
+          alert(
+            `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+          );
+        } else {
+          // e.g. server process killed or network down
+          // event.code is usually 1006 in this case
+          alert('[close] Connection died');
+        }
+      };
+
+      socket.onerror = function (error) {
+        alert(`[error]`);
+      };
+    </script>
+  </body>
+</html>
