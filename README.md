@@ -42,3 +42,36 @@ BTW, the client will exit after 5 seconds timeout.
 
 - What kind of failures do you expect to a project such as DISTRISE to encounter?
   - If I understand correctly, DISTRISE should be a type of event aggregator. In a distributed system, such a component might encounter some failure situations, such as network latency, inability to collect events from certain nodes due to network partition, single point of failure, data consistency, and security issues like DDoS attacks. To address these problems, we may need to discuss some solutions in the future, such as using a load balancer in conjunction with replica scaling to address the single point of failure issue, utilizing database replicas and sharding to solve availability and consistency concerns, and setting up monitoring systems to observe resource usage in the system, such as CPU and memory usage, among others.
+
+## Phase 2: build a simple nostr relay
+
+#### How to use ?
+
+```
+node nostr-relay/server.js
+```
+
+then use ws://localhost:8080 as relay URL in the client
+
+#### TODOS
+
+- [ ] Deploy to cloud service
+- [ ] Currently we use JS object to store ws connection, but if we scale the relay server in the future, it may cause some issues. So I think that I can try to replace the object mapping with distributed in-memory data store such as Redis
+
+#### Questions Exercises
+
+- Why did you choose this database? (Postgres)
+  - I am more familiar with PostgresSQL
+  - My database is hosted by Supabase. Supabase is a backend-as-a-service, it provide easy to use UI and some scaling strategies which I can use in the future
+  - Although PostgreSQL itself does not directly support distributed database functionality, but it can be achieved through various external tools and techniques like sharding, replication and Citus.
+- If the number of events to be stored will be huge, what would you do to scale the database?
+
+  - I will try these methods first:
+
+    - Sharding: This involves dividing the data into multiple parts (or "shards") and distributing these parts across multiple PostgreSQL instances. Each instance may run on a different physical or virtual machine. For example, Postgres-XL is an open-source, distributed database based on PostgreSQL that supports horizontal scaling through sharding.
+
+    - Replication: This involves keeping copies of the data on multiple PostgreSQL instances. PostgreSQL natively supports replication features, including Streaming Replication and Logical Replication.
+
+    - PostgreSQL External Extensions: For instance, Citus is an open-source PostgreSQL extension that can transform a single-node PostgreSQL database into a distributed database. Citus implements the functionalities of a distributed database through sharding and replication.
+
+  - In reality, it depends on identifying the actual bottleneck before determining the appropriate scaling strategy.
