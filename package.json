@@ -1,7 +1,7 @@
 {
   "name": "nostr-distributed-system-exercise",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "nostr-relay/server.js",
   "repository": "https://github.com/kylemocode/nostr-distributed-system-exercise.git",
   "author": "kylemocode <kylemo860617@gmail.com>",
   "license": "MIT",
