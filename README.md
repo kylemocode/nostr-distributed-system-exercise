@@ -75,3 +75,22 @@ then use ws://localhost:8080 as relay URL in the client
     - PostgreSQL External Extensions: For instance, Citus is an open-source PostgreSQL extension that can transform a single-node PostgreSQL database into a distributed database. Citus implements the functionalities of a distributed database through sharding and replication.
 
   - In reality, it depends on identifying the actual bottleneck before determining the appropriate scaling strategy.
+
+## Phase 3: Event Fetching and Persistence
+
+Currently, this aggregator only get event from the testing relay
+
+#### How to use ?
+
+```
+node nostr-aggregator/server.js
+```
+
+If you want to see the events stored in the DB through CLI, run this command
+
+```
+node nostr-aggregator/eventDisplayer.js --amount=2 --orderBy=asc
+```
+
+- amount: amount of data you want to get, default value is 20
+- orderBy: should be "desc" or "asc"
