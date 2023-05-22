@@ -4,6 +4,19 @@ import minimist from 'minimist';
 
 const prisma = new PrismaClient();
 
+const argv = minimist(process.argv.slice(2), {
+  default: {
+    amount: 20,
+    orderBy: 'asc',
+    keyword: '',
+  },
+  alias: {
+    a: 'amount',
+    o: 'orderBy',
+    k: 'keyword',
+  },
+});
+
 async function displayEvents(limit, orderBy) {
   // Check orderBy value
   if (orderBy !== 'asc' && orderBy !== 'desc') {
@@ -20,7 +33,13 @@ async function displayEvents(limit, orderBy) {
     orderBy: {
       created_at: orderBy,
     },
+    where: {
+      payload: {
+        contains: argv.keyword,
+      },
+    },
   });
+
   events.forEach((event, index) => {
     console.log(chalk.green(`Event ${index + 1}:`));
     console.log(chalk.blue(`ID: ${event.id}`));
@@ -29,9 +48,9 @@ async function displayEvents(limit, orderBy) {
     console.log('\n');
   });
 }
-const args = minimist(process.argv.slice(2));
-const amount = args.amount || 20;
-const order = args.orderBy || 'desc';
+
+const amount = argv.amount || 20;
+const order = argv.orderBy || 'desc';
 
 displayEvents(amount, order)
   .catch(e => {

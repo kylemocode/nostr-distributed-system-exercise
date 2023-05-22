@@ -89,8 +89,11 @@ node nostr-aggregator/server.js
 If you want to see the events stored in the DB through CLI, run this command
 
 ```
-node nostr-aggregator/eventDisplayer.js --amount=2 --orderBy=asc
+node nostr-aggregator/eventDisplayer.js --amount=2 --orderBy=asc --keyword=keyword
 ```
 
-- amount: amount of data you want to get, default value is 20
-- orderBy: should be "desc" or "asc"
+- `amount`: amount of data you want to get, default value is 20
+- `orderBy`: should be "desc" or "asc"
+- `keyword`: payload content contains keyword, default will be empty string
+
+![截圖 2023-05-22 下午11 40 07](https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/85ef3d2f-655a-45fb-98b6-9e88f0931230)
