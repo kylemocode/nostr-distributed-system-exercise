@@ -55,7 +55,7 @@ then use ws://localhost:8080 as relay URL in the client
 
 #### TODOS
 
-- [ ] Deploy to cloud service
+- [X] Deploy to cloud service ( wss://enchanted-lunar-lens.glitch.me/ , but because of the security policy of glitch, we have to specify the user-agent header to connect to this ws server, or it may return 502 bad gateway error)
 - [ ] Currently we use JS object to store ws connection, but if we scale the relay server in the future, it may cause some issues. So I think that I can try to replace the object mapping with distributed in-memory data store such as Redis
 
 #### Questions Exercises
