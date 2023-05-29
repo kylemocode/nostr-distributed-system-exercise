@@ -1,5 +1,7 @@
 # Nostr Distributed System Exercises
 
+Nostr Distributed System Exerices based on https://achq.notion.site/Distributed-Systems-Project-Briefing-00eaa7a219954bb1a346d73bf09164f2
+
 ## Phase 1: build a simple nostr client
 
 #### Requirements
@@ -55,7 +57,7 @@ then use ws://localhost:8080 as relay URL in the client
 
 #### TODOS
 
-- [X] Deploy to cloud service ( wss://enchanted-lunar-lens.glitch.me/ , but because of the security policy of glitch, we have to specify the user-agent header to connect to this ws server, or it may return 502 bad gateway error)
+- [x] Deploy to cloud service ( wss://enchanted-lunar-lens.glitch.me/ , but because of the security policy of glitch, we have to specify the user-agent header to connect to this ws server, or it may return 502 bad gateway error)
 - [ ] Currently we use JS object to store ws connection, but if we scale the relay server in the future, it may cause some issues. So I think that I can try to replace the object mapping with distributed in-memory data store such as Redis
 
 #### Questions Exercises
@@ -97,3 +99,25 @@ node nostr-aggregator/eventDisplayer.js --amount=2 --orderBy=asc --keyword=keywo
 - `keyword`: payload content contains keyword, default will be empty string
 
 ![截圖 2023-05-22 下午11 40 07](https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/85ef3d2f-655a-45fb-98b6-9e88f0931230)
+
+## Phase 4 Event Aggregation and Queuing
+
+### How to use ?
+
+For aggregator, run
+
+```
+node nostr-aggregator/server.js
+```
+
+It will loop through the endpoints of relays in the array and listen to WS event. If it receive events, it will send them to RabbitMQ.
+
+For consume the events from queue, run
+
+```
+node nostr-aggregator/services/eventConsumer.js
+```
+
+to start the consumer (Only for demo purpose. In reality, we may deploy and scale them independently.)
+
+The consumer will fetch events from queue and store them in DB. And we can use display built in phase 3 to read event data from DB.
