@@ -100,7 +100,7 @@ node nostr-aggregator/eventDisplayer.js --amount=2 --orderBy=asc --keyword=keywo
 
 ![截圖 2023-05-22 下午11 40 07](https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/85ef3d2f-655a-45fb-98b6-9e88f0931230)
 
-## Phase 4 Event Aggregation and Queuing
+## Phase 4: Event Aggregation and Queuing
 
 ### How to use ?
 
@@ -121,3 +121,14 @@ node nostr-aggregator/services/eventConsumer.js
 to start the consumer (Only for demo purpose. In reality, we may deploy and scale them independently.)
 
 The consumer will fetch events from queue and store them in DB. And we can use display built in phase 3 to read event data from DB.
+
+---
+
+#### We can monitor RabbitMQ through UI
+
+<img width="1639" alt="截圖 2023-05-29 下午8 04 23" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/eba6225a-00cc-4413-b864-ed2f649eb823">
+
+#### Phase 4 Workflow Architecture
+
+![mermaid-diagram-2023-05-29-122006](https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/8c02d4e4-19d6-4f2d-8561-3e044747e703)
+
