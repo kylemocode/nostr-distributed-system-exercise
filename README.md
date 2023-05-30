@@ -124,7 +124,7 @@ The consumer will fetch events from queue and store them in DB. And we can use d
 
 ---
 
-#### We can monitor RabbitMQ through UI
+#### We can monitor RabbitMQ through panel
 
 <img width="1639" alt="截圖 2023-05-29 下午8 04 23" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/eba6225a-00cc-4413-b864-ed2f649eb823">
 
