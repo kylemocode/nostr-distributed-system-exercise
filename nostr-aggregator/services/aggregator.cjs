@@ -42,15 +42,17 @@ class AggregatorService {
 
       this.counters.connectCounter.add(1);
       connectSpan.setStatus({ code: SpanStatusCode.OK });
-      connectSpan.end();
     } catch (error) {
       console.error('Error during connection:', error);
+
       connectSpan.setStatus({
         code: SpanStatusCode.ERROR,
         message: error.message,
       });
-      connectSpan.end();
+
       throw error;
+    } finally {
+      connectSpan.end();
     }
   }
 
@@ -82,7 +84,6 @@ class AggregatorService {
 
           this.counters.messageCounter.add(1);
           messageSpan.setStatus({ code: SpanStatusCode.OK });
-          messageSpan.end();
           console.log('pushed event to queue successfully!');
         }
       } catch (error) {
@@ -90,8 +91,9 @@ class AggregatorService {
           code: SpanStatusCode.ERROR,
           message: error.message,
         });
-        messageSpan.end();
         throw error;
+      } finally {
+        messageSpan.end();
       }
     } else {
       console.log(
@@ -105,16 +107,23 @@ class AggregatorService {
   }
 
   async cleanup() {
+    const cleanupSpan = trace
+      .getTracer('event-aggregator')
+      .startSpan('cleanup');
+
     try {
-      const connectSpan = trace
-        .getTracer('event-aggregator')
-        .startSpan('cleanup');
       await this.queueService.closeChannel();
       console.log('Closed RabbitMQ connection');
-      connectSpan.end();
-    } catch (err) {
-      console.error('Failed to clean up:', err);
+      cleanupSpan.setStatus({ code: SpanStatusCode.OK });
+    } catch (error) {
+      console.error('Failed to clean up:', error);
+      cleanupSpan.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: err.message,
+      });
       throw err;
+    } finally {
+      cleanupSpan.end();
     }
   }
 }
