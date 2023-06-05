@@ -132,3 +132,63 @@ The consumer will fetch events from queue and store them in DB. And we can use d
 
 ![mermaid-diagram-2023-05-29-122006](https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/8c02d4e4-19d6-4f2d-8561-3e044747e703)
 
+
+---
+
+## Phase 5: Instrumentation and Preparations for Live Load Testing
+
+In this phase, I refactor the original codebase to OOP style for modulization & test ability.
+
+I this phase, I integrate some tools for observability:
+
+- Prometheus (monitor `Metrics`)
+- Opentelemetry
+- Ziplin (monitor `Spans`)
+
+
+### How to use
+
+To start Ziplin server locally, run
+
+```
+docker run -d -p 9411:9411 openzipkin/zipkin
+```
+
+then go to `http://localhost:9411/zipkin/`, you can see the Zipkin panel
+
+<img width="1687" alt="截圖 2023-06-05 下午3 36 01" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/97221973-8ed5-40f7-8a80-43735f7d35c4">
+
+
+To start Prometheus server locally, run this command in root folder
+
+```
+docker compose up -d
+```
+
+
+then go to `http://localhost:9090`, you can see the Prometheus panel
+
+<img width="1717" alt="截圖 2023-06-05 下午3 36 45" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/b26e3c87-2d99-4b51-a491-353b00f2dc5c">
+
+To start the event aggregator server, run
+
+```
+node nostr-aggregator/server.js
+```
+
+this command will also start an endpoints(http://localhost:5001/metrics) for Prometheus to collect custom metrics
+
+<img width="1721" alt="截圖 2023-06-05 下午3 29 00" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/875a0372-d861-41e0-a7f5-e28151841d65">
+
+### The custom metrics we collect
+
+- `relay_connect_counts`: Counts the number of successful connections to the relay
+- `message_received_counts`: Counts the number of messages received from the relay
+- `queue_publish_counts`: Counts the number of messages published to the queue
+- `cleanup_counts`: Counts the number of successful cleanup operations
+
+### The spans we measure
+
+- `connectSpan`
+- `messageSpan`
+- `cleanupSpan`
