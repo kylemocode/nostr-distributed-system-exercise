@@ -6,7 +6,6 @@ import {
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
-import { MeterProvider } from '@opentelemetry/metrics';
 import { config } from 'dotenv';
 import express from 'express';
 import { register } from 'prom-client';

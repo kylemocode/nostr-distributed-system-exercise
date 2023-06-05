@@ -67,6 +67,7 @@ class AggregatorService {
 
   async handleMessage(message) {
     if (this.isWsConnectionOpen && this.isQueueReady) {
+      this.counters.messageCounter.inc();
       const messageSpan = trace
         .getTracer('event-aggregator')
         .startSpan('handle_message');
@@ -85,7 +86,7 @@ class AggregatorService {
             })
           );
 
-          this.counters.messageCounter.inc();
+          this.counters.queuePublishCounter.inc();
           messageSpan.setStatus({ code: SpanStatusCode.OK });
           console.log('pushed event to queue successfully!');
         }
