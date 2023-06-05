@@ -39,8 +39,11 @@ class AggregatorService {
           this.ws.once('error', reject);
         });
       }
-
-      this.counters.connectCounter.add(1);
+      console.log(
+        'this.counters.connectCounter ',
+        this.counters.connectCounter
+      );
+      this.counters.connectCounter.inc();
       connectSpan.setStatus({ code: SpanStatusCode.OK });
     } catch (error) {
       console.error('Error during connection:', error);
@@ -82,7 +85,7 @@ class AggregatorService {
             })
           );
 
-          this.counters.messageCounter.add(1);
+          this.counters.messageCounter.inc();
           messageSpan.setStatus({ code: SpanStatusCode.OK });
           console.log('pushed event to queue successfully!');
         }

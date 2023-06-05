@@ -8,9 +8,17 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
 import { MeterProvider } from '@opentelemetry/metrics';
 import { config } from 'dotenv';
+import express from 'express';
+import { register } from 'prom-client';
 
 import MessageQueueService from './services/messageQueue.js';
 import AggregatorService from './services/aggregator.cjs';
+import {
+  connectCounter,
+  messageCounter,
+  queuePublishCounter,
+  cleanupCounter,
+} from './services/metrics.js';
 
 // Set up OpenTelemetry
 const provider = new NodeTracerProvider({
@@ -31,25 +39,6 @@ const zipkinExporter = new ZipkinExporter({
 const zipkinProcessor = new SimpleSpanProcessor(zipkinExporter);
 
 provider.addSpanProcessor(zipkinProcessor);
-
-// Create a new meter provider for generating metrics
-const meter = new MeterProvider({ interval: 1000 }).getMeter(
-  'event-aggregator'
-);
-
-// Create metrics
-const connectCounter = meter.createCounter('relay_connect_count', {
-  description: 'Counts the number of successful connections to the relay',
-});
-const messageCounter = meter.createCounter('message_received_count', {
-  description: 'Counts the number of messages received from the relay',
-});
-const queuePublishCounter = meter.createCounter('queue_publish_count', {
-  description: 'Counts the number of messages published to the queue',
-});
-const cleanupCounter = meter.createCounter('cleanup_count', {
-  description: 'Counts the number of successful cleanup operations',
-});
 
 async function main() {
   await config();
@@ -100,3 +89,19 @@ async function main() {
 }
 
 main();
+
+/*
+ * Express server to send metrics to Prometheus.
+ * Just a workaround, because prom-client default will get metrics from same process.
+ * We may use Node.js Cluster modules to handle IPC in the future refactor.
+ */
+const app = express();
+
+app.get('/metrics', async (_, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
+app.listen(5001, () => {
+  console.log('server listening on port 5001...');
+});
