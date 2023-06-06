@@ -137,18 +137,18 @@ The consumer will fetch events from queue and store them in DB. And we can use d
 
 ## Phase 5: Instrumentation and Preparations for Live Load Testing
 
-In this phase, I refactor the original codebase to OOP style for modulization & test ability.
+In this phase, I refactor the original codebase to OOP style for better modulization & test ability.
 
 I this phase, I integrate some tools for observability:
 
-- Prometheus (monitor `Metrics`)
 - Opentelemetry
-- Ziplin (monitor `Spans`)
+- Zipkin (monitor `Spans`)
+- Prometheus (monitor `Metrics`)
 
 
 ### How to use
 
-To start Ziplin server locally, run
+To start Zipkin server locally, run
 
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
@@ -176,7 +176,10 @@ To start the event aggregator server, run
 node nostr-aggregator/server.js
 ```
 
-this command will also start an endpoints(http://localhost:5001/metrics) for Prometheus to collect custom metrics
+this command will also start an endpoints(http://localhost:5001/metrics) for Prometheus to collect custom metrics (Currently, to let the metrics and the server run in the same Node.js process so that they can connect through the counter metrics, I put them in the same file. This is just a workaround and I plan to use Cluster module of Node.js to seperate them to different files and processes.)
+
+<img width="621" alt="截圖 2023-06-06 上午10 17 38" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/5ae73df1-3bb6-4211-8ae2-81400451c128">
+
 
 <img width="1721" alt="截圖 2023-06-05 下午3 29 00" src="https://github.com/kylemocode/nostr-distributed-system-exercise/assets/35811214/875a0372-d861-41e0-a7f5-e28151841d65">
 
