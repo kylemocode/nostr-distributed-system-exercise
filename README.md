@@ -1,7 +1,7 @@
 # Nostr Distributed System Exercises
 
-Nostr Distributed System Exerices based on https://achq.notion.site/Distributed-Systems-Project-Briefing-00eaa7a219954bb1a346d73bf09164f2
-
+Nostr Distributed System Exerices based on [this document](https://achq.notion.site/Distributed-Systems-Project-Briefing-00eaa7a219954bb1a346d73bf09164f2
+)
 ## Phase 1: build a simple nostr client
 
 #### Requirements
